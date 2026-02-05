@@ -1,0 +1,10 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.tflite
+*.cc
+*.o
+*.elf
+build/
+/.pio/

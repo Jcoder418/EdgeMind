@@ -52,3 +52,24 @@ This writes `edgemind_model.tflite` to `model/`.
 - [model/model.h](model/model.h)
 
 If you want, I can convert the generated TFLite model to a C array and embed it into `model/model.h`, add CI, or adapt the firmware for STM32 or Raspberry Pi Pico. Which would you like next?
+
+---
+
+**New features added**
+- `--quantize` option for `model/train_model.py` to produce a dynamically quantized TFLite model.
+- `model/convert_tflite_to_c.py` — helper script to convert a `.tflite` file into a `.cc` and minimal `model.h` exposing `edgemind_model` and `edgemind_model_len`.
+- `requirements.txt` for Python dependencies and a `.gitignore`.
+
+Example commands:
+
+```bash
+# Train and export a quantized tflite
+python model/train_model.py --epochs 200 --quantize --out model/edgemind_model.tflite
+
+# Convert to C source/header (writes model/edgemind_model.cc and model/model.h)
+python model/convert_tflite_to_c.py model/edgemind_model.tflite model/edgemind_model.cc model/model.h
+
+# Build/flash firmware with your preferred tool (PlatformIO / Arduino)
+```
+
+If you'd like, I can run the conversion for you (you'll need to run training locally or provide the `edgemind_model.tflite` file), then embed the generated `.cc` into `firmware/` and update the Arduino project to compile it automatically.
