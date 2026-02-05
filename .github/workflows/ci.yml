@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  python-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run training (quick smoke)
+        run: |
+          python model/train_model.py --epochs 2 --out model/edgemind_model.tflite
+      - name: Convert to C
+        run: |
+          python model/convert_tflite_to_c.py model/edgemind_model.tflite model/edgemind_model.cc model/model.h
