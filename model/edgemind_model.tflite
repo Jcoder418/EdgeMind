@@ -1,0 +1,2 @@
+This is a placeholder for edgemind_model.tflite.
+Run model/train_model.py to generate a real TFLite file.
